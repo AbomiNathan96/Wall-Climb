@@ -28,11 +28,11 @@ namespace Wall_Climb
     public class Plugin : BaseUnityPlugin
     {
         bool inRoom;
-        GameObject LeftTrigger;
-        GameObject RightTrigger;
-        SphereCollider Right;
-        SphereCollider Left;
-        public static float DetR = 1f;
+        public static float DetR = 0.2f;
+        internal GameObject CustomPlatR;
+        bool platSetR = false;
+        bool platSetL = false;
+        internal GameObject CustomPlatL;
 
         void Start()
         {
@@ -46,6 +46,8 @@ namespace Wall_Climb
 
         void OnEnable()
         {
+            CustomPlatL.SetActive(true);
+            CustomPlatR.SetActive(true);
             /* Set up your mod here */
             /* Code here runs at the start and whenever your mod is enabled*/
 
@@ -54,6 +56,8 @@ namespace Wall_Climb
 
         void OnDisable()
         {
+            CustomPlatR.SetActive(false);
+            CustomPlatL.SetActive(false);
             /* Undo mod setup here */
             /* This provides support for toggling mods with ComputerInterface, please implement it :) */
             /* Code here runs whenever your mod is disabled (including if it disabled on startup)*/
@@ -63,18 +67,87 @@ namespace Wall_Climb
 
         void OnGameInitialized(object sender, EventArgs e)
         {
-            /* Code here runs after the game initializes (i.e. GorillaLocomotion.Player.Instance != null) */
+            CustomPlatL = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            CustomPlatR = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            /* Code here runs after the game initializes (i.e. GorillaLocomotion.Player.Instance !s= null) */
         }
 
         void Update()
         {
-            Screen.Work = true;
-
-            // Check for overlapping colliders in a sphere
-            if (Physics.CheckSphere(GorillaLocomotion.Player.Instance.leftControllerTransform.position, DetR) && ControllerInputPoller.instance.leftGrab)
+            if(inRoom == true)
             {
-                //put the thingy here
+
+                // Check for overlapping colliders in a sphere
+                Collider[] Lcolliders = Physics.OverlapSphere(GorillaLocomotion.Player.Instance.leftControllerTransform.position, DetR);
+                foreach (Collider col in Lcolliders)
+                {
+                    // Check the tag or layer of the overlapping object
+                    if (col.gameObject.layer == 0 || col.gameObject.layer == 9)
+                    {
+
+                        if (ControllerInputPoller.instance.leftControllerGripFloat >= 0.5f)
+                        {
+
+                            if (platSetL == false)
+                            {
+
+                                CustomPlatL.transform.position = GorillaLocomotion.Player.Instance.leftControllerTransform.position;
+                                CustomPlatL.transform.rotation = GorillaLocomotion.Player.Instance.leftControllerTransform.rotation;
+                                platSetL = true;
+                                CustomPlatL.transform.Translate(new Vector3(0f, 0f, 0f));
+                                CustomPlatL.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
+                                CustomPlatL.GetComponent<Renderer>().enabled = false;
+
+
+                            }
+                        }
+                        else
+                        {
+
+                            platSetL = false;
+                            CustomPlatL.transform.position = new Vector3(0f, 0f, 0f);
+                            CustomPlatL.transform.rotation = GorillaLocomotion.Player.Instance.leftControllerTransform.rotation;
+                            CustomPlatL.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
+                            CustomPlatL.GetComponent<Renderer>().enabled = false;
+
+                        }
+                    }
+                }
+                // Check for overlapping colliders in a sphere
+                Collider[] Rcolliders = Physics.OverlapSphere(GorillaLocomotion.Player.Instance.rightControllerTransform.position, DetR);
+
+                foreach (Collider col in Rcolliders)
+                {
+                    // Check the tag or layer of the overlapping object
+                    if (col.gameObject.layer == 0 || col.gameObject.layer == 9)
+                    {
+                        if (ControllerInputPoller.instance.rightControllerGripFloat >= 0.5f)
+                        {
+                            if (platSetR == false)
+                            {
+                                CustomPlatR.transform.position = GorillaLocomotion.Player.Instance.rightControllerTransform.position;
+                                CustomPlatR.transform.rotation = GorillaLocomotion.Player.Instance.rightControllerTransform.rotation;
+                                platSetR = true;
+                                CustomPlatR.transform.Translate(new Vector3(0f, 0f, 0f));
+                                CustomPlatR.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
+                                CustomPlatR.GetComponent<Renderer>().enabled = true;
+
+
+                            }
+                        }
+                        else
+                        {
+                            platSetR = false;
+                            CustomPlatR.transform.position = new Vector3(0f, 0f, 0f);
+                            CustomPlatR.transform.rotation = GorillaLocomotion.Player.Instance.rightControllerTransform.rotation;
+                            CustomPlatR.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
+                            CustomPlatR.GetComponent<Renderer>().enabled = true;
+
+                        }
+                    }
+                }
             }
+
         }
 
         /* This attribute tells Utilla to call this method when a modded room is joined */
