@@ -1,4 +1,4 @@
-﻿using BepInEx;
+using BepInEx;
 using System;
 using UnityEngine;
 using Utilla;
@@ -29,10 +29,10 @@ namespace Wall_Climb
     {
         bool inRoom;
         public static float DetR = 0.2f;
-        internal GameObject CustomPlatR;
+        internal GameObject CustomPlatR = GameObject.CreatePrimitive(PrimitiveType.Cube);
         bool platSetR = false;
         bool platSetL = false;
-        internal GameObject CustomPlatL;
+        internal GameObject CustomPlatL = GameObject.CreatePrimitive(PrimitiveType.Cube);
 
         void Start()
         {
@@ -82,10 +82,10 @@ namespace Wall_Climb
                 foreach (Collider col in Lcolliders)
                 {
                     // Check the tag or layer of the overlapping object
-                    if (col.gameObject.layer == 0 || col.gameObject.layer == 9)
+                    if (col.gameObject.layer == 0 || col.gameObject.layer == 9|| col.gameObject.tag == "CanBeWallClimbed")
                     {
 
-                        if (ControllerInputPoller.instance.leftControllerGripFloat >= 0.5f)
+                        if (ControllerInputPoller.instance.leftGrab == true)
                         {
 
                             if (platSetL == false)
@@ -95,7 +95,7 @@ namespace Wall_Climb
                                 CustomPlatL.transform.rotation = GorillaLocomotion.Player.Instance.leftControllerTransform.rotation;
                                 platSetL = true;
                                 CustomPlatL.transform.Translate(new Vector3(0f, 0f, 0f));
-                                CustomPlatL.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
+                                CustomPlatL.transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
                                 CustomPlatL.GetComponent<Renderer>().enabled = false;
 
 
@@ -107,7 +107,7 @@ namespace Wall_Climb
                             platSetL = false;
                             CustomPlatL.transform.position = new Vector3(0f, 0f, 0f);
                             CustomPlatL.transform.rotation = GorillaLocomotion.Player.Instance.leftControllerTransform.rotation;
-                            CustomPlatL.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
+                            CustomPlatL.transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
                             CustomPlatL.GetComponent<Renderer>().enabled = false;
 
                         }
@@ -119,9 +119,9 @@ namespace Wall_Climb
                 foreach (Collider col in Rcolliders)
                 {
                     // Check the tag or layer of the overlapping object
-                    if (col.gameObject.layer == 0 || col.gameObject.layer == 9)
+                    if (col.gameObject.layer == 0 || col.gameObject.layer == 9|| col.gameObject.tag == "CanBeWallClimbed")
                     {
-                        if (ControllerInputPoller.instance.rightControllerGripFloat >= 0.5f)
+                        if (ControllerInputPoller.instance.rightGrab == true)
                         {
                             if (platSetR == false)
                             {
@@ -129,7 +129,7 @@ namespace Wall_Climb
                                 CustomPlatR.transform.rotation = GorillaLocomotion.Player.Instance.rightControllerTransform.rotation;
                                 platSetR = true;
                                 CustomPlatR.transform.Translate(new Vector3(0f, 0f, 0f));
-                                CustomPlatR.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
+                                CustomPlatR.transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
                                 CustomPlatR.GetComponent<Renderer>().enabled = true;
 
 
@@ -140,7 +140,7 @@ namespace Wall_Climb
                             platSetR = false;
                             CustomPlatR.transform.position = new Vector3(0f, 0f, 0f);
                             CustomPlatR.transform.rotation = GorillaLocomotion.Player.Instance.rightControllerTransform.rotation;
-                            CustomPlatR.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
+                            CustomPlatR.transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
                             CustomPlatR.GetComponent<Renderer>().enabled = true;
 
                         }
