@@ -11,7 +11,7 @@ namespace Wall_Climb
     {
         public string Title => "Wall Clmb";
 
-        public string Description => "Press 1-9 to change the detection range, thats it \r\n Made By Abominathan96";
+        public string Description => "Press 1-4 to change the detection range, thats it \r\n Made By Abominathan96";
 
         string Button;
 
