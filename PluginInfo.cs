@@ -7,6 +7,6 @@
     {
         public const string GUID = "com.abominathan96.gorillatag.wall-climb";
         public const string Name = "Wall_Climb";
-        public const string Version = "1.0.0";
+        public const string Version = "2.0.0";
     }
 }
