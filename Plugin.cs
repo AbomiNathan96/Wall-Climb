@@ -85,7 +85,7 @@ namespace Wall_Climb
                     if (col.gameObject.layer == 0 || col.gameObject.layer == 9|| col.gameObject.tag == "CanBeWallClimbed")
                     {
 
-                        if (ControllerInputPoller.instance.leftControllerGripFloat >= 0.2f)
+                        if (ControllerInputPoller.instance.leftControllerIndexFloat >= 0.5f)
                         {
 
                             if (platSetL == false)
@@ -121,7 +121,7 @@ namespace Wall_Climb
                     // Check the tag or layer of the overlapping object
                     if (col.gameObject.layer == 0 || col.gameObject.layer == 9|| col.gameObject.tag == "CanBeWallClimbed")
                     {
-                        if (ControllerInputPoller.instance.rightControllerGripFloat >= 0.2f)
+                        if (ControllerInputPoller.instance.rightControllerIndexFloat >= 0.5f)
                         {
                             if (platSetR == false)
                             {
